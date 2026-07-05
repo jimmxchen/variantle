@@ -10,7 +10,10 @@ interface EndOfGameProps {
   onPlayAgain: () => void;
   onDismiss: () => void;
   // When set, the "Study on Lichess" link opens the variant analysis board.
+  // "standard" (ex-Chessle) behaves like no variant: plain analysis URL,
+  // and openings show their real ECO code + name.
   variant?:
+    | "standard"
     | "kingOfTheHill"
     | "threeCheck"
     | "horde"
@@ -34,11 +37,14 @@ export default function EndOfGame({ phase, opening, openingIndex: _openingIndex,
 
   const won = phase === "won";
 
+  // Standard chess uses lichess's plain analysis URL and named-opening display.
+  const variantSlug = variant === "standard" ? undefined : variant;
+
   // Truncate to the moves actually played (lineLength may be < opening.moves.length)
   const displayMoves = opening.moves.slice(0, lineLength);
   const pgn = displayMoves.length === opening.moves.length ? opening.pgn : buildPgn(displayMoves);
-  const analysisBase = variant
-    ? `https://lichess.org/analysis/${variant}/pgn/`
+  const analysisBase = variantSlug
+    ? `https://lichess.org/analysis/${variantSlug}/pgn/`
     : `https://lichess.org/analysis/pgn/`;
   const lichessUrl = `${analysisBase}${encodeURIComponent(pgn)}#explorer`;
 
@@ -82,13 +88,14 @@ export default function EndOfGame({ phase, opening, openingIndex: _openingIndex,
           {/* Opening info */}
           <div className="w-full rounded-xl bg-white/5 border border-white/10 p-4 text-left">
             <p className="text-xs text-indigo-300 font-mono uppercase tracking-widest mb-1">
-              {variant ? "—" : opening.eco || "—"}
+              {variantSlug ? "—" : opening.eco || "—"}
             </p>
             <p className="text-white font-semibold text-base leading-snug">
               {/* Variants have no meaningful opening names (and Crazyhouse's
                   standard-chess name is misleading once captures/drops diverge),
-                  so show the played move list for every variant. */}
-              {variant ? pgn || "Unnamed line" : opening.name || opening.pgn || "Unnamed line"}
+                  so show the played move list for every variant. Standard uses
+                  its real ECO + name. */}
+              {variantSlug ? pgn || "Unnamed line" : opening.name || opening.pgn || "Unnamed line"}
             </p>
 
             {/* Move sequence */}
