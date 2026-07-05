@@ -32,7 +32,7 @@ function buildPgn(moves: string[]): string {
   return parts.join(" ");
 }
 
-export default function EndOfGame({ phase, opening, openingIndex: _openingIndex, lineLength, onPlayAgain, onDismiss, variant }: EndOfGameProps) {
+export default function EndOfGame({ phase, opening, lineLength, onPlayAgain, onDismiss, variant }: EndOfGameProps) {
   if (phase === "playing") return null;
 
   const won = phase === "won";
@@ -50,12 +50,12 @@ export default function EndOfGame({ phase, opening, openingIndex: _openingIndex,
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-[#0A0A16] shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-md rounded-2xl border border-foreground/10 bg-background shadow-2xl overflow-hidden">
         {/* Dismiss button */}
         <button
           onClick={onDismiss}
           aria-label="Close"
-          className="absolute top-4 right-4 z-10 text-gray-500 hover:text-white transition-colors"
+          className="absolute top-4 right-4 z-10 text-muted/80 hover:text-foreground transition-colors"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round">
             <path d="M18 6L6 18M6 6l12 12" />
@@ -75,10 +75,10 @@ export default function EndOfGame({ phase, opening, openingIndex: _openingIndex,
           {/* Result emoji + heading */}
           <div>
             <p className="text-5xl mb-3">{won ? "♟️" : "😔"}</p>
-            <h2 className="text-2xl font-bold text-white font-space">
+            <h2 className="text-2xl font-bold text-foreground font-space">
               {won ? "Solved!" : "Better luck next time"}
             </h2>
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="text-sm text-muted mt-1">
               {won
                 ? "You matched the opening exactly."
                 : "You've used all your guesses."}
@@ -86,11 +86,11 @@ export default function EndOfGame({ phase, opening, openingIndex: _openingIndex,
           </div>
 
           {/* Opening info */}
-          <div className="w-full rounded-xl bg-white/5 border border-white/10 p-4 text-left">
-            <p className="text-xs text-indigo-300 font-mono uppercase tracking-widest mb-1">
+          <div className="w-full rounded-xl bg-foreground/5 border border-foreground/10 p-4 text-left">
+            <p className="text-xs text-muted font-mono uppercase tracking-widest mb-1">
               {variantSlug ? "—" : opening.eco || "—"}
             </p>
-            <p className="text-white font-semibold text-base leading-snug">
+            <p className="text-foreground font-semibold text-base leading-snug">
               {/* Variants have no meaningful opening names (and Crazyhouse's
                   standard-chess name is misleading once captures/drops diverge),
                   so show the played move list for every variant. Standard uses
@@ -103,10 +103,10 @@ export default function EndOfGame({ phase, opening, openingIndex: _openingIndex,
               {displayMoves.map((move, i) => (
                 <span
                   key={i}
-                  className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded bg-white/10 text-gray-200 font-mono"
+                  className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded bg-foreground/10 text-foreground/90 font-mono"
                 >
                   {i % 2 === 0 && (
-                    <span className="text-white/30">{Math.floor(i / 2) + 1}.</span>
+                    <span className="text-foreground/30">{Math.floor(i / 2) + 1}.</span>
                   )}
                   {move}
                 </span>
@@ -119,7 +119,7 @@ export default function EndOfGame({ phase, opening, openingIndex: _openingIndex,
             href={lichessUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 transition-colors underline underline-offset-2"
+            className="flex items-center gap-2 text-sm text-muted hover:text-foreground transition-colors underline underline-offset-2"
           >
             <svg
               className="w-4 h-4"
@@ -136,7 +136,7 @@ export default function EndOfGame({ phase, opening, openingIndex: _openingIndex,
           {/* Play Again */}
           <button
             onClick={onPlayAgain}
-            className="w-full py-3 px-6 rounded-xl font-semibold text-white bg-gradient-to-r from-[#6366F1] to-[#22D3EE] hover:opacity-90 transition-opacity active:scale-95"
+            className="w-full py-3 px-6 rounded-xl font-semibold text-accent-contrast bg-accent hover:opacity-90 transition-opacity active:scale-95"
           >
             Play Again
           </button>

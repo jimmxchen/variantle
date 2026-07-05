@@ -28,7 +28,7 @@ export default function Pocket({ pieces, color, onDragStart }: PocketProps) {
   return (
     <div
       style={{ width: "min(480px, 90vw)" }}
-      className="mx-auto flex items-center gap-2 rounded-lg border border-white/10 bg-[#0A0A16] px-2 py-1"
+      className="mx-auto flex items-center gap-2 rounded-lg border border-foreground/10 bg-background px-2 py-1"
     >
       <div className="flex flex-1 items-center gap-2" style={{ minHeight: CELL + 6 }}>
         {ROLE_ORDER.filter((role) => (pieces[role] ?? 0) > 0).map((role) => {

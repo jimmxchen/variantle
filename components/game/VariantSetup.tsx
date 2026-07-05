@@ -28,7 +28,7 @@ export const VARIANT_META: Record<
   { label: string; blurb: string; slug: VariantSlug }
 > = {
   standard: {
-    label: "Standard",
+    label: "Standard (prev. Chessle)",
     blurb: "Classic chess openings — previously Chessle.",
     slug: "standard",
   },
@@ -121,16 +121,16 @@ export default function VariantSetup({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="w-full max-w-xs rounded-2xl border border-white/10 bg-[#0A0A16] shadow-2xl overflow-hidden">
-        <div className="h-1 w-full bg-gradient-to-r from-[#6366F1] to-[#22D3EE]" />
+      <div className="w-full max-w-xs rounded-2xl border border-foreground/10 bg-background shadow-2xl overflow-hidden">
+        <div className="h-1 w-full bg-accent" />
 
         <div className="p-6 flex flex-col gap-4">
           {/* Welcome header */}
           <div className="text-center mb-1">
-            <h2 className="text-2xl font-bold font-space bg-gradient-to-r from-[#6366F1] to-[#22D3EE] bg-clip-text text-transparent">
+            <h2 className="text-2xl font-bold font-space text-foreground">
               Welcome to Variantle!
             </h2>
-            <p className="text-xs text-gray-500 mt-1 font-mono">
+            <p className="text-xs text-muted/80 mt-1 font-mono">
               Guess the variant opening in {"{"}6{"}"} tries
             </p>
           </div>
@@ -141,7 +141,7 @@ export default function VariantSetup({
               <div
                 key={s}
                 className={`h-1 w-9 rounded-full transition-colors ${
-                  step >= s ? "bg-indigo-500" : "bg-white/10"
+                  step >= s ? "bg-accent" : "bg-foreground/10"
                 }`}
               />
             ))}
@@ -149,16 +149,16 @@ export default function VariantSetup({
 
           {step === 1 && (
             <>
-              <p className="text-center text-sm text-gray-400">Select variant</p>
+              <p className="text-center text-sm text-muted">Select variant</p>
 
               {pageVariants.map((v) => (
                 <button
                   key={v}
                   onClick={() => handleVariant(v)}
-                  className="w-full py-3 px-4 rounded-xl border border-white/10 text-center
-                    hover:bg-white/5 hover:border-white/30 transition-all duration-200"
+                  className="w-full py-3 px-4 rounded-xl border border-foreground/10 text-center
+                    hover:bg-foreground/5 hover:border-foreground/30 transition-all duration-200"
                 >
-                  <span className="block font-semibold text-white">{VARIANT_META[v].label}</span>
+                  <span className="block font-semibold text-foreground">{VARIANT_META[v].label}</span>
                 </button>
               ))}
 
@@ -167,20 +167,20 @@ export default function VariantSetup({
                   <button
                     onClick={() => setVarPage((p) => Math.max(0, p - 1))}
                     disabled={varPage === 0}
-                    className="py-2 px-3 rounded-lg border border-white/10 text-sm text-gray-400
-                      hover:bg-white/5 hover:text-white transition-all duration-200
+                    className="py-2 px-3 rounded-lg border border-foreground/10 text-sm text-muted
+                      hover:bg-foreground/5 hover:text-foreground transition-all duration-200
                       disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     ← Prev
                   </button>
-                  <span className="text-xs text-gray-500 font-mono">
+                  <span className="text-xs text-muted/80 font-mono">
                     Page {varPage + 1} / {pageCount}
                   </span>
                   <button
                     onClick={() => setVarPage((p) => Math.min(pageCount - 1, p + 1))}
                     disabled={varPage === pageCount - 1}
-                    className="py-2 px-3 rounded-lg border border-white/10 text-sm text-gray-400
-                      hover:bg-white/5 hover:text-white transition-all duration-200
+                    className="py-2 px-3 rounded-lg border border-foreground/10 text-sm text-muted
+                      hover:bg-foreground/5 hover:text-foreground transition-all duration-200
                       disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     More →
@@ -192,7 +192,7 @@ export default function VariantSetup({
 
           {step === 2 && (
             <>
-              <p className="text-center text-sm text-gray-400">Select difficulty</p>
+              <p className="text-center text-sm text-muted">Select difficulty</p>
 
               <button
                 onClick={() => handleDifficulty("easy")}
@@ -218,8 +218,8 @@ export default function VariantSetup({
 
               <button
                 onClick={() => setStep(1)}
-                className="mt-1 w-full py-2.5 rounded-xl border border-white/10 text-sm text-gray-400
-                  hover:bg-white/5 hover:text-white transition-all duration-200"
+                className="mt-1 w-full py-2.5 rounded-xl border border-foreground/10 text-sm text-muted
+                  hover:bg-foreground/5 hover:text-foreground transition-all duration-200"
               >
                 ← Back
               </button>
@@ -228,7 +228,7 @@ export default function VariantSetup({
 
           {step === 3 && (
             <>
-              <p className="text-center text-sm text-gray-400">Select move depth</p>
+              <p className="text-center text-sm text-muted">Select move depth</p>
 
               <div className="flex justify-center gap-2">
                 {DEPTH_OPTIONS.map((d) => (
@@ -238,8 +238,8 @@ export default function VariantSetup({
                     className={`w-10 h-10 rounded-lg text-sm font-bold font-mono border transition-all duration-200
                       ${
                         depth === d
-                          ? "bg-gradient-to-br from-[#6366F1] to-[#22D3EE] border-transparent text-white shadow-lg"
-                          : "border-white/10 text-gray-400 hover:border-white/30 hover:text-white"
+                          ? "bg-accent border-transparent text-accent-contrast shadow-lg"
+                          : "border-foreground/10 text-muted hover:border-foreground/30 hover:text-foreground"
                       }`}
                   >
                     {d}
@@ -247,20 +247,20 @@ export default function VariantSetup({
                 ))}
               </div>
 
-              <p className="text-center text-xs text-gray-600 font-mono -mt-1">half-moves to guess</p>
+              <p className="text-center text-xs text-muted/60 font-mono -mt-1">half-moves to guess</p>
 
               <div className="flex gap-2 mt-1">
                 <button
                   onClick={() => setStep(2)}
-                  className="flex-1 py-2.5 rounded-xl border border-white/10 text-sm text-gray-400
-                    hover:bg-white/5 hover:text-white transition-all duration-200"
+                  className="flex-1 py-2.5 rounded-xl border border-foreground/10 text-sm text-muted
+                    hover:bg-foreground/5 hover:text-foreground transition-all duration-200"
                 >
                   ← Back
                 </button>
                 <button
                   onClick={handlePlay}
-                  className="flex-[2] py-2.5 rounded-xl text-sm font-bold text-white
-                    bg-gradient-to-r from-[#6366F1] to-[#22D3EE] hover:opacity-90 transition-opacity active:scale-95"
+                  className="flex-[2] py-2.5 rounded-xl text-sm font-bold text-accent-contrast
+                    bg-accent hover:opacity-90 transition-opacity active:scale-95"
                 >
                   Play
                 </button>

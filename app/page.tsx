@@ -16,7 +16,7 @@ const ChessBoard = dynamic(() => import("@/components/game/ChessBoard"), {
   ssr: false,
   loading: () => (
     <div
-      className="rounded bg-white/5 border border-white/10 animate-pulse"
+      className="rounded bg-foreground/5 border border-foreground/10 animate-pulse"
       style={{ width: "min(480px, 90vw)", height: "min(480px, 90vw)" }}
     />
   ),
@@ -35,7 +35,7 @@ const PREFIX_TO_VARIANT: Record<string, VariantKey> = Object.fromEntries(
 const EMPTY_DATASET = { openings: [], difficulties: {} };
 const FALLBACK_ENGINE = VARIANTS_REGISTRY[0].engine;
 
-type CgApi = { set: (cfg: unknown) => void; dragNewPiece: (piece: unknown, e: unknown) => void };
+type CgApi = { set(cfg: unknown): void; dragNewPiece(piece: unknown, e: unknown): void };
 
 export default function VariantlePage() {
   const [variant, setVariant] = useState<VariantKey | undefined>(undefined);
@@ -188,16 +188,16 @@ export default function VariantlePage() {
       <main className="flex-1 flex flex-col items-center pt-8 pb-16 px-4 gap-6">
         {/* Page heading */}
         <div className="text-center">
-          <h1 className="text-3xl font-bold font-space bg-gradient-to-r from-[#6366F1] to-[#22D3EE] bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold font-space text-foreground">
             Variantle
           </h1>
         </div>
 
         {/* Status bar */}
-        <div className="flex items-center gap-3 text-xs text-gray-400 font-mono w-full" style={{ maxWidth: "min(540px, 95vw)" }}>
+        <div className="flex items-center gap-3 text-xs text-muted font-mono w-full" style={{ maxWidth: "min(540px, 95vw)" }}>
           <span>
             Guess{" "}
-            <span className="text-white font-semibold">{currentGuessIndex + 1}</span>
+            <span className="text-foreground font-semibold">{currentGuessIndex + 1}</span>
             {" "}/ {MAX_GUESSES}
           </span>
           <span>
@@ -211,10 +211,10 @@ export default function VariantlePage() {
               ? "🎉 Solved!"
               : "Game over"}
           </span>
-          <span className="ml-auto text-gray-500">
-            {variantLabel && <span className="text-white font-semibold">{variantLabel}</span>}
+          <span className="ml-auto text-muted/80">
+            {variantLabel && <span className="text-foreground font-semibold">{variantLabel}</span>}
             {variantLabel && " · "}
-            <span className="text-white font-semibold">{lineLength || targetDepth}</span> moves
+            <span className="text-foreground font-semibold">{lineLength || targetDepth}</span> moves
           </span>
         </div>
 
@@ -249,8 +249,8 @@ export default function VariantlePage() {
             <button
               onClick={undoMove}
               disabled={!canUndo}
-              className="flex-1 py-2.5 px-4 rounded-lg border border-white/10 text-sm font-semibold text-gray-300
-                hover:bg-white/5 hover:text-white transition-all
+              className="flex-1 py-2.5 px-4 rounded-lg border border-foreground/10 text-sm font-semibold text-foreground/80
+                hover:bg-foreground/5 hover:text-foreground transition-all
                 disabled:opacity-30 disabled:cursor-not-allowed"
             >
               ↩ Undo
@@ -267,8 +267,8 @@ export default function VariantlePage() {
             <button
               onClick={submitGuess}
               disabled={!canSubmit}
-              className="flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold text-white
-                bg-gradient-to-r from-[#6366F1] to-[#22D3EE]
+              className="flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold text-accent-contrast
+                bg-accent
                 hover:opacity-90 transition-opacity active:scale-95
                 disabled:opacity-30 disabled:cursor-not-allowed"
             >
@@ -280,15 +280,15 @@ export default function VariantlePage() {
           <div className="flex gap-3">
             <button
               onClick={handleShare}
-              className="flex-1 py-2 px-4 rounded-lg border border-white/10 text-sm font-semibold text-gray-300
-                hover:bg-white/5 hover:text-white transition-all"
+              className="flex-1 py-2 px-4 rounded-lg border border-foreground/10 text-sm font-semibold text-foreground/80
+                hover:bg-foreground/5 hover:text-foreground transition-all"
             >
               {copyLabel}
             </button>
             <button
               onClick={handleLoadOpen}
-              className="flex-1 py-2 px-4 rounded-lg border border-white/10 text-sm font-semibold text-gray-300
-                hover:bg-white/5 hover:text-white transition-all"
+              className="flex-1 py-2 px-4 rounded-lg border border-foreground/10 text-sm font-semibold text-foreground/80
+                hover:bg-foreground/5 hover:text-foreground transition-all"
             >
               Load
             </button>
@@ -298,8 +298,8 @@ export default function VariantlePage() {
           <button
             onClick={handlePlayAgain}
             disabled={phase === "playing"}
-            className="w-full py-2 px-4 rounded-lg border border-white/10 text-sm font-semibold text-gray-300
-              hover:bg-white/5 hover:text-white transition-all
+            className="w-full py-2 px-4 rounded-lg border border-foreground/10 text-sm font-semibold text-foreground/80
+              hover:bg-foreground/5 hover:text-foreground transition-all
               disabled:opacity-30 disabled:cursor-not-allowed"
           >
             Play Again
@@ -314,19 +314,19 @@ export default function VariantlePage() {
                 onChange={(e) => { setLoadInput(e.target.value); setLoadError(""); }}
                 onKeyDown={(e) => { if (e.key === "Enter") handleLoadSubmit(); if (e.key === "Escape") setLoadOpen(false); }}
                 placeholder="Paste game code…"
-                className="flex-1 py-2 px-3 rounded-lg bg-white/5 border border-white/10 text-sm text-white font-mono
-                  placeholder:text-white/20 focus:outline-none focus:border-indigo-500/60"
+                className="flex-1 py-2 px-3 rounded-lg bg-foreground/5 border border-foreground/10 text-sm text-foreground font-mono
+                  placeholder:text-foreground/20 focus:outline-none focus:border-foreground/60"
               />
               <button
                 onClick={handleLoadSubmit}
-                className="py-2 px-4 rounded-lg text-sm font-semibold text-white
-                  bg-gradient-to-r from-[#6366F1] to-[#22D3EE] hover:opacity-90 transition-opacity"
+                className="py-2 px-4 rounded-lg text-sm font-semibold text-accent-contrast
+                  bg-accent hover:opacity-90 transition-opacity"
               >
                 Go
               </button>
               <button
                 onClick={() => setLoadOpen(false)}
-                className="py-2 px-3 rounded-lg text-sm text-gray-400 hover:text-white border border-white/10 hover:bg-white/5 transition-all"
+                className="py-2 px-3 rounded-lg text-sm text-muted hover:text-foreground border border-foreground/10 hover:bg-foreground/5 transition-all"
               >
                 ✕
               </button>
@@ -341,7 +341,7 @@ export default function VariantlePage() {
         <GuessGrid grid={grid} currentGuessIndex={currentGuessIndex} lineLength={lineLength} />
 
         {/* Legend */}
-        <div className="flex items-center gap-4 text-xs text-gray-500">
+        <div className="flex items-center gap-4 text-xs text-muted/80">
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-sm bg-emerald-600" />
             <span>Correct position</span>
