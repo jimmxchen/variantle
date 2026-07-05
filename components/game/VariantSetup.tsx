@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { Difficulty } from "@/hooks/useChessle";
 
 export type VariantKey =
+  | "standard"
   | "koth"
   | "threeCheck"
   | "horde"
@@ -13,6 +14,7 @@ export type VariantKey =
   | "crazyhouse";
 
 type VariantSlug =
+  | "standard"
   | "kingOfTheHill"
   | "threeCheck"
   | "horde"
@@ -25,6 +27,11 @@ export const VARIANT_META: Record<
   VariantKey,
   { label: string; blurb: string; slug: VariantSlug }
 > = {
+  standard: {
+    label: "Standard",
+    blurb: "Classic chess openings — previously Chessle.",
+    slug: "standard",
+  },
   koth: {
     label: "King of the Hill",
     blurb: "March your king to the center to win.",
