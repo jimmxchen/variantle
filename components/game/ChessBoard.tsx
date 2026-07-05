@@ -4,8 +4,10 @@ import { useEffect, useRef, useCallback } from "react";
 import { Chessground } from "@lichess-org/chessground";
 import type { GameEngine } from "@/lib/engine/types";
 
-// Chessground type aliases (avoids subpath import issues with bundler moduleResolution)
+// Chessground type aliases (avoids subpath import issues with bundler
+// moduleResolution; typing Api properly cascades branded Key types everywhere)
 type Key = string; // e.g. "e2", "e4"
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Api = any;
 type Piece = { role: string; color: "white" | "black" };
 

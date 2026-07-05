@@ -21,11 +21,11 @@ function tileStyle(color: TileColor, isActiveRow: boolean): string {
     case "gray":
       return `${base} bg-zinc-600 border-zinc-500 text-white`;
     case "pending":
-      return `${base} bg-indigo-900/60 border-indigo-500/70 text-indigo-200`;
+      return `${base} bg-foreground/10 border-foreground/40 text-foreground/90`;
     case "empty":
     default:
-      return `${base} bg-white/5 border-white/10 text-white/20 ${
-        isActiveRow ? "border-white/20" : ""
+      return `${base} bg-foreground/5 border-foreground/10 text-foreground/20 ${
+        isActiveRow ? "border-foreground/20" : ""
       }`;
   }
 }
@@ -73,7 +73,7 @@ export default function GuessGrid({ grid, currentGuessIndex, lineLength }: Guess
               return (
                 <div key={fullMoveIdx} className="flex items-center gap-1">
                   {/* Move number label */}
-                  <span className="text-xs text-white/30 font-mono w-4 text-right shrink-0">
+                  <span className="text-xs text-foreground/30 font-mono w-4 text-right shrink-0">
                     {fullMoveIdx + 1}.
                   </span>
 
