@@ -34,3 +34,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude specific documentation
+CLAUDE.md
+CHANGES.md
+CLAUDE General Instructions.md
+
+# opening-tree data — lives in the private repo jimmyxchen/variantle-data,
+# cloned into data/ locally and fetched by Actions at build time
+/data/

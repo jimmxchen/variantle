@@ -20,6 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Opening-tree JSON lives in a private repo; fetched via read-only deploy key.
+      - uses: actions/checkout@v4
+        with:
+          repository: jimmyxchen/variantle-data
+          ssh-key: ${{ secrets.DATA_REPO_DEPLOY_KEY }}
+          path: data
       - uses: actions/setup-node@v4
         with:
           node-version: 20
