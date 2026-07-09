@@ -2,7 +2,13 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+The opening-tree data lives in a separate private repo. On a fresh clone (skip this if `data/` already exists), fetch it first:
+
+```bash
+gh repo clone jimmyxchen/variantle-data data
+```
+
+Then run the development server:
 
 ```bash
 npm run dev
@@ -14,7 +20,7 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000/variantle](http://localhost:3000/variantle) with your browser to see the result (the app is served under the `/variantle` base path to match GitHub Pages; the bare root URL will 404).
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
