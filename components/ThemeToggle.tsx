@@ -18,28 +18,43 @@ export default function ThemeToggle() {
 
   return (
     <button
+      role="switch"
+      aria-checked={mounted ? isDark : undefined}
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label={mounted ? `Switch to ${isDark ? "light" : "dark"} mode` : "Toggle color theme"}
       title="Toggle color theme"
-      className="w-9 h-9 flex items-center justify-center rounded-lg border border-foreground/10
-        text-muted hover:text-foreground hover:bg-foreground/5 transition-all
+      className="relative inline-flex items-center w-[46px] h-6 rounded-full border border-foreground/10
+        bg-foreground/5 hover:bg-foreground/10 transition-colors
         focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
     >
-      {!mounted ? (
-        // Neutral placeholder (avoids showing the wrong icon before hydration)
-        <span className="w-4 h-4 rounded-full border border-current" aria-hidden />
-      ) : isDark ? (
-        // Sun — clicking switches to light
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+      {/* Sliding thumb. Rests left in light mode (sun), slides right in dark
+          mode (moon). Both icons are stacked and crossfade in sync with the
+          slide, so the icon never swaps ahead of the thumb's travel. */}
+      <span
+        className={`absolute top-1/2 -translate-y-1/2 w-[18px] h-[18px] rounded-full
+          bg-foreground text-background flex items-center justify-center
+          transition-transform duration-200 ease-out ${mounted && isDark ? "translate-x-[25px]" : "translate-x-[3px]"}`}
+        aria-hidden
+      >
+        {/* Sun — visible in light mode. Hidden until mounted to avoid a
+            pre-hydration flash of the wrong icon. */}
+        <svg
+          width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          strokeWidth="2.5" strokeLinecap="round"
+          className={`absolute transition-opacity duration-200 ${mounted && !isDark ? "opacity-100" : "opacity-0"}`}
+        >
           <circle cx="12" cy="12" r="4" />
           <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
         </svg>
-      ) : (
-        // Moon — clicking switches to dark
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        {/* Moon — visible in dark mode. */}
+        <svg
+          width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+          className={`absolute transition-opacity duration-200 ${mounted && isDark ? "opacity-100" : "opacity-0"}`}
+        >
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
         </svg>
-      )}
+      </span>
     </button>
   );
 }
