@@ -1,4 +1,4 @@
-Try variantle at [https://jimmxchen.github.io/variantle/](https://jimmxchen.github.io/variantle/)
+Try variantle at [https://jimmxchen.github.io/variantle/](https://jimmxchen.github.io/variantle/)!
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
